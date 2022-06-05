@@ -9,8 +9,13 @@ export async function main() {
   const app = express();
   const port = process.env.PORT ?? 3000;
 
+  app.set("view engine", "pug");
+  app.set("views", './pug')
+
+  app.use(express.static("./.out/public"));
+
   app.get("/", (req, res) => {
-    res.send("Hello world!");
+    res.render("index", {})
   })
 
   app.listen(port, () => {

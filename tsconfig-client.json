@@ -1,9 +1,9 @@
 {
-  "include": ["ts-server/**/*"],
+  "include": ["ts-client/**/*"],
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES5",
     "esModuleInterop": true,
-    "outDir": ".out/server/",
+    "outDir": ".out/bundle-js/",
     "strict": true,
     "noImplicitAny": true,
     "moduleResolution": "node"

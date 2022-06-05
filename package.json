@@ -7,8 +7,19 @@
   "scripts": {
     "clean": "rimraf .out/*",
     "prebuild": "npm run clean",
-    "build": "tsc -p tsconfig-server.json",
-    "dev": "npm run build & npm run start",
+    "build": "npm run build:ts-server && npm run build:ts-client && npm run build:scss && npm run build:other",
+    "build:ts-server": "tsc -p tsconfig-server.json",
+    "build:ts-client": "make-dir .out/public && browserify -g uglifyify ts-client/main.ts -p [ tsify -p tsconfig-client.json --noImplicitAny ] | uglifyjs -c > .out/public/main.js",
+    "build:scss": "sass scss/main.scss .out/public/main.css --style compressed",
+    "build:other": "copyfiles -u 1 \"other/**/*\" .out/public",
+    "dev": "npm run builddev && concurrently \"npm run watch:sass\" \"npm run watch:ts\" \"npm run watch:other\" \"npm run start\"",
+    "prebuilddev": "npm run clean",
+    "builddev": "npm run build:ts-server && npm run builddev:ts && npm run builddev:sass && npm run build:other",
+    "builddev:sass": "sass scss/main.scss .out/public/main.css",
+    "builddev:ts": "make-dir .out/public && browserify --debug ts-client/main.ts -p [ tsify -p tsconfig-client.json --noImplicitAny ] -o .out/public/main.js",
+    "watch:sass": "sass -w scss/main.scss .out/public/main.css",
+    "watch:ts": "watchify --debug ts-client/main.ts -p [ tsify -p tsconfig-client.json --noImplicitAny ] -o .out/public/main.js",
+    "watch:other": "onchange \"other/**/*\" -- npm run build:other",
     "start": "node --es-module-specifier-resolution=node --trace-uncaught index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,10 +43,21 @@
     "prettier": "2.6.2"
   },
   "dependencies": {
+    "browserify": "^17.0.0",
+    "concurrently": "^7.2.1",
+    "copyfiles": "^2.4.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "make-dir-cli": "^3.0.0",
+    "onchange": "^7.1.0",
+    "pug": "^3.0.2",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.3"
+    "sass": "^1.52.2",
+    "tsify": "^5.0.4",
+    "typescript": "^4.7.3",
+    "uglify-js": "^3.15.5",
+    "uglifyify": "^5.0.2",
+    "watchify": "^4.0.0"
   },
   "engines": {
     "node": ">=16"

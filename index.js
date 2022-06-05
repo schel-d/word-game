@@ -1,2 +1,2 @@
-import { main } from "./.out/main.js";
+import { main } from "./.out/server/main.js";
 await main();
