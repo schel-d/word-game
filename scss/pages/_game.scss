@@ -1,0 +1,72 @@
+#game {
+  --browser-chrome: 80px;
+
+  --vo-umpire-height: 30;
+  --vo-controls-height: 20;
+  --board-width: 100;
+  --board-height: 130;
+  --ho-sidebar-width: 60;
+
+  --vo-width: 100;
+  --vo-height: calc(
+    var(--vo-umpire-height) + var(--board-height) + var(--vo-controls-height)
+  );
+  --vo-aspect-ratio: calc(var(--vo-width) / var(--vo-height));
+
+  --ho-width: calc(var(--board-width) + var(--ho-sidebar-width));
+  --ho-height: var(--board-height);
+  --ho-aspect-ratio: calc(var(--ho-width) / var(--ho-height));
+
+  --size-unit: calc(
+    min(95vw, calc(100vh * var(--vo-aspect-ratio) - var(--browser-chrome))) /
+      var(--vo-width)
+  );
+  height: calc(var(--vo-height) * var(--size-unit));
+  width: calc(var(--vo-width) * var(--size-unit));
+
+  background-color: black;
+  display: grid;
+  grid-template-rows:
+    calc(var(--vo-umpire-height) * var(--size-unit))
+    calc(var(--board-height) * var(--size-unit))
+    calc(var(--vo-controls-height) * var(--size-unit));
+}
+
+// Aspect ratio must be integers for Safari
+@media only screen and (min-aspect-ratio: 6/6) {
+  #game {
+    --size-unit: calc(
+      min(95vw, calc(100vh * var(--ho-aspect-ratio) - var(--browser-chrome))) /
+        var(--ho-width)
+    );
+    height: calc(var(--ho-height) * var(--size-unit));
+    width: calc(var(--ho-width) * var(--size-unit));
+
+    grid-template-rows: auto auto;
+    grid-template-columns:
+      calc(var(--board-width) * var(--size-unit))
+      calc(var(--ho-sidebar-width) * var(--size-unit));
+  }
+  #game-umpire {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  #game-board {
+    grid-column: 1;
+    grid-row: span 2;
+  }
+  #game-controls {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+#game-umpire {
+  background-color: green;
+}
+#game-board {
+  background-color: red;
+}
+#game-controls {
+  background-color: purple;
+}

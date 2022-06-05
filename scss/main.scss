@@ -1,3 +1,18 @@
-h1 {
-  color: blue;
+@use "base/button";
+@use "base/colors";
+@use "base/reset";
+@use "pages/game";
+
+* {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+body {
+  background-color: var(--clr-bg);
 }

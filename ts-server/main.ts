@@ -15,7 +15,7 @@ export async function main() {
   app.use(express.static("./.out/public"));
 
   app.get("/", (req, res) => {
-    res.render("index", {})
+    res.render("main", {})
   })
 
   app.listen(port, () => {
